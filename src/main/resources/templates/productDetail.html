@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produkt Detalj</title>
+</head>
+<body>
+    <div>
+        <h1 th:text="${product.name}"></h1>
+        <img th:src="@{${product.imageUrl}}" alt="Product Image"/>
+        <p th:text="${product.description}"></p>
+        <p th:text="${product.price}"></p>
+
+        <button th:if= "${isAuthenticated}">Lägg till i kundvagn</button>
+    </div>
+</body>
+</html>
