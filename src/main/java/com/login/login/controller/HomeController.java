@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Controller
@@ -25,6 +26,18 @@ public class HomeController {
         model.addAttribute("isAuthenticated", SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         return "index";
 
+    }
+
+    @GetMapping("/product/{id}")
+    public String productDetailPage(@PathVariable("id") int id, Model model){
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        return "productDetail";
+    }
+
+    @GetMapping("/register")
+    public String registerPage(){
+        return "register";
     }
     
     
