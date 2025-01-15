@@ -21,7 +21,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String homePage(Model model){
-        List<Product> products = ProductService.getAllProducts();
+        List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
         model.addAttribute("isAuthenticated", SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         return "index";
