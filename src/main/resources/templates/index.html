@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startsida</title>
+</head>
+<body>
+    <div>
+        <h1>Vällkommen till vår butik</h1>
+    </div>
+
+    <div th:each="product : ${products}">
+        <h2 th:text="${product.name}"></h2>
+        <img th:src="@{${product.imageUrl}}" alt="Product Image"/>
+        <p th:text="${product.price}"></p>
+        <a th:href="@{/product/{id}(id=${product.id})}">Detaljer</a>
+    </div>
+
+    <div>
+        <a th:href= "@{/register}">Registrera</a>
+        <a th:href= "@{/login}" th:text="${isAuthenticated ? 'Logga ut' : 'Logga in'}"></a>
+        <a th:href= "@{/orders}" th:if="${isAuthenticated}">Mina ordrar</a>
+    </div>   
+    
+</body>
+</html>
