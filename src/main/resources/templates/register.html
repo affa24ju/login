@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrera dig</title>
+</head>
+<body>
+    <div>
+        <h1>Registrera dig</h1>
+        <form action="#" th:action= "@{/register}" th:object="${user}" method="post">
+            <label for="firstName">Förnamn</label>
+            <input type="text" th:field="*{firstName}" id="firstName" required/>
+
+            <label for="lastName">Efternamn</label>
+            <input type="text" th:field="*{lastName}" id="lastName" required/>
+
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" id="email" required/>
+
+            <label for="userName">Användarnamn</label>
+            <input type="text" th:field="*{userName}" id="userName" required/>
+
+            <label for="password">Lösenord</label>
+            <input type="password" th:field="*{password}" id="password" required/>
+
+            <button type="submit">Registrera</button>
+
+        </form>
+    </div>
+</body>
+</html>
