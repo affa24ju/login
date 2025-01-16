@@ -1,5 +1,10 @@
 package com.login.login.model;
 
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +33,10 @@ public class User {
         this.password = password;
     }
 
+    //metod som returnerar behörigheter
+    public List<GrantedAuthority> getAuthorities(){
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
     //getters & setters
     public int getId() {
         return id;
