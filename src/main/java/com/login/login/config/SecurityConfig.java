@@ -50,10 +50,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     return http.build();
 }
 
-
+    /* 
     @Bean
     public UserDetailsService userDetailsService() {
-        // Vi använder en custom UserDetailsService för att hämta användare från databasen
+        // använder en custom UserDetailsService för att hämta användare från databasen
         return username -> userService.findByUserName(username)
             .map(user -> org.springframework.security.core.userdetails.User
                     .withUsername(user.getUserName())
@@ -61,7 +61,12 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                     .roles("USER")
                     .build())
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    } */
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return username -> userService.loadUserByUsername(username);  // Använd den metod vi just skrev i UserService
     }
+    
 }
 
 

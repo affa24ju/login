@@ -20,16 +20,19 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> findByUserName(String userName) {
-        return Optional.ofNullable(userRepository.findByUserName(userName));
+        return userRepository.findByUserName(userName); // Returnera direkt Optional<User>
     }
 
     @Override
     public org.springframework.security.core.userdetails.User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUserName(username)
-            .map(user -> new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), 
-                    user.getAuthorities()))  // Här används getAuthorities()
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return new org.springframework.security.core.userdetails.User(
+                user.getUserName(), 
+                user.getPassword(), 
+                user.getAuthorities()); // Här använder vi getAuthorities() från User klassen
     }
+    
 }
 
 
