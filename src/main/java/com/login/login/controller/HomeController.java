@@ -45,7 +45,9 @@ public class HomeController {
     }
 
     @GetMapping("/register")
-    public String registerPage(){
+    public String registerPage(Model model){
+        System.out.println("till register sidan");
+        model.addAttribute("user", new User());
         return "register";
     }
     
