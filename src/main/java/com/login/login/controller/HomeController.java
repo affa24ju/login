@@ -41,6 +41,7 @@ public class HomeController {
     public String productDetailPage(@PathVariable("id") int id, Model model){
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("isAuthenticated", SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         return "productDetail";
     }
 

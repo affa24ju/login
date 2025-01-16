@@ -29,7 +29,7 @@ public class SecurityConfig {
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(authz -> authz
-            .requestMatchers("/", "/register", "/login").permitAll()  // Tillåt öppna sidor
+            .requestMatchers("/", "/register", "/login", "/product/**").permitAll()  // Tillåt öppna sidor
             .requestMatchers("/orders").authenticated()  // Endast inloggade användare kan se mina ordrar
             .anyRequest().authenticated()  // Andra sidor kräver inloggning
         )
