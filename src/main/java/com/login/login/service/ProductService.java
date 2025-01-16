@@ -1,10 +1,8 @@
 package com.login.login.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.login.login.model.Product;
 import com.login.login.repository.ProductRepository;
 
