@@ -18,9 +18,10 @@
     </div>
 
     <div>
-        <a th:href= "@{/register}">Registrera</a>
-        <a th:href= "@{/login}" th:text="${isAuthenticated ? 'Logga ut' : 'Logga in'}"></a>
-        <a th:href= "@{/orders}" th:if="${isAuthenticated}">Mina ordrar</a>
+        <a th:href="@{/register}">Registrera</a>
+        <a th:href="@{/login}" th:text="${isAuthenticated ? 'Logga ut' : 'Logga in'}">Logga in</a>
+        <a th:href="@{/orders}" th:if="${isAuthenticated}">Mina ordrar</a>
+
     </div>   
     
 </body>

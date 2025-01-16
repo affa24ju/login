@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -50,21 +49,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     return http.build();
 }
 
-    /* 
+
     @Bean
     public UserDetailsService userDetailsService() {
-        // använder en custom UserDetailsService för att hämta användare från databasen
-        return username -> userService.findByUserName(username)
-            .map(user -> org.springframework.security.core.userdetails.User
-                    .withUsername(user.getUserName())
-                    .password(user.getPassword())
-                    .roles("USER")
-                    .build())
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    } */
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> userService.loadUserByUsername(username);  // Använd den metod vi just skrev i UserService
+        return username -> userService.loadUserByUsername(username);  // Använd den metod i UserService
     }
     
 }
