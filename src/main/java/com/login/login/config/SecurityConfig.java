@@ -2,6 +2,8 @@ package com.login.login.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +28,11 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
 @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -46,8 +53,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .logoutSuccessUrl("/") // Efter utloggning omdirigeras användaren till startsidan
         )
         .sessionManagement(session -> session
-        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Skapa session om det behövs
-        .invalidSessionUrl("/login") // Om sessionen är ogiltig, omdirigera till login-sidan
+            .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Skapa session om det behövs
+            .invalidSessionUrl("/login") // Om sessionen är ogiltig, omdirigera till login-sidan
         )   
         .exceptionHandling(exception -> exception
             .accessDeniedPage("/") // Obehörig åtkomst omdirigeras till startsidan

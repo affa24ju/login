@@ -7,10 +7,13 @@ import java.util.List;
 import com.login.login.model.User;  
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +31,8 @@ public class HomeController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @GetMapping("/")
     public String homePage(Model model){
@@ -66,5 +71,30 @@ public class HomeController {
         userService.saveUser(user);
         return "redirect:/";
     }
+
+    @GetMapping("/login")
+    public String showLoginPage(){
+        return "login";
+    }
+ 
+    @PostMapping("/login")
+    public String handleLoginPage(@ModelAttribute("user") User user, Model model){
+        System.out.println("till login page");
+        try {
+            // Försök logga in användaren med username och password
+            UsernamePasswordAuthenticationToken authenticationToken = 
+                new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Efter lyckad inloggning kan vi omdirigera till startsidan eller annan sida
+            return "redirect:/";  // Omdirigera till startsidan
+        } catch (Exception e) {
+            // Om inloggningen misslyckas
+            model.addAttribute("error", "Felaktigt användarnamn eller lösenord");
+            return "login";  // Visa login-sidan igen med felmeddelande
+        }
+        
+    } 
     
 }
