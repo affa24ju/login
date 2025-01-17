@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +29,8 @@ public class SecurityConfig {
 @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
+        .csrf(csrf -> csrf
+            .ignoringRequestMatchers("/login", "/logout")) //ignorere csrf för login/logout
         .authorizeHttpRequests(authz -> authz
             .requestMatchers("/", "/register", "/login", "/product/**").permitAll()  // Tillåt öppna sidor
             .requestMatchers("/orders").authenticated()  // Endast inloggade användare kan se mina ordrar
@@ -42,17 +45,21 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .permitAll() // Tillåt logout för alla
             .logoutSuccessUrl("/") // Efter utloggning omdirigeras användaren till startsidan
         )
+        .sessionManagement(session -> session
+        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Skapa session om det behövs
+        .invalidSessionUrl("/login") // Om sessionen är ogiltig, omdirigera till login-sidan
+        )   
         .exceptionHandling(exception -> exception
             .accessDeniedPage("/") // Obehörig åtkomst omdirigeras till startsidan
         );
-    
+     
     return http.build();
 }
 
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userService.loadUserByUsername(username);  // Använd den metod i UserService
+        return username -> userService.loadUserByUsername(username);  // Använder metod i UserService
     }
     
 }

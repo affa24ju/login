@@ -19,7 +19,9 @@
 
     <div>
         <a th:href="@{/register}">Registrera</a>
-        <a th:href="@{/login}" th:text="${isAuthenticated ? 'Logga ut' : 'Logga in'}">Logga in</a>
+        <!--Visa "Logga in" om man inte är inloggad, annars "Logga ut"-->
+        <a th:href="@{/login}" th:text="${isAuthenticated ? 'Logga ut' : 'Logga in'}" th:if="${!isAuthenticated}">Logga in</a>
+        <a th:href= "@{/logout}" th:if="${isAuthenticated}">Logga ut</a>
         <a th:href="@{/orders}" th:if="${isAuthenticated}">Mina ordrar</a>
 
     </div>   
