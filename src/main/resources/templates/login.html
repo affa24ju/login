@@ -10,6 +10,10 @@
         <h1>Logga in</h1>
     </div>
 
+    <div th:if="${error}">
+        <p style="color:red;">[[${error}]]</p>
+    </div>
+
     <div>
         <form action="#" th:action= "@{/login}" method="post">
             <label for="username">Användarnamn</label>
