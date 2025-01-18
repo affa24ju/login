@@ -38,6 +38,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
+                .requestMatchers("/images/**").permitAll()
                 .requestMatchers("/", "/register", "/login", "/product/**").permitAll()  // Tillåt öppna sidor
                 .requestMatchers("/orders").authenticated()  // Endast inloggade användare kan se mina ordrar
                 .anyRequest().authenticated()  // Andra sidor kräver inloggning
