@@ -13,6 +13,8 @@
         <p th:text="${product.price}"></p>
 
         <button th:if= "${isAuthenticated}">Lägg till i kundvagn</button>
+
+        <a th:href= "@{/}">Tillbaka till Startsida</a>
     </div>
 </body>
 </html>
