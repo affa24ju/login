@@ -1,7 +1,6 @@
 package com.login.login.service;
 
 import com.login.login.model.User;
-//import com.login.login.model.UserDto;
 import com.login.login.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,19 +29,17 @@ public class UserService implements UserDetailsService {
 
     @Override
     public org.springframework.security.core.userdetails.User loadUserByUsername(String username) throws UsernameNotFoundException {
-         System.out.println("Försöker ladda användare: " + username);
+         //System.out.println("Försöker ladda användare: " + username);
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         
-        System.out.println("user found: " + user.getUserName());
-        System.out.println("password: " + user.getPassword());
+        //System.out.println("user found: " + user.getUserName());
+        //System.out.println("password: " + user.getPassword());
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(), 
                 user.getPassword(), 
                 user.getAuthorities()); // använder getAuthorities() från User klassen 
-        /*return userRepository.findByUserName(username)
-            .map(UserDto::new)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));*/
+        
     }
     
 }
