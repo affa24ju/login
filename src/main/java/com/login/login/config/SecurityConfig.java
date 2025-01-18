@@ -7,11 +7,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import com.login.login.service.UserService;  // Importera UserService för att hämta användare från databasen
 
@@ -24,7 +22,7 @@ public class SecurityConfig {
     public SecurityConfig(UserService userService) {
         this.userService = userService;
     }
-
+    //Definerar PasswordEncoder för att hantera krypterade lösenord
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,14 +49,11 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .permitAll() // Tillåt logout för alla
-                .logoutSuccessUrl("/") // Efter utloggning omdirigeras användaren till startsidan
                 .invalidateHttpSession(true)
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Skapa session om det behövs
-                //.maximumSessions(1)
-                //.expiredUrl("/login?expired=true")
-                .invalidSessionUrl("/login") // Om sessionen är ogiltig, omdirigera till login-sidan
+                //.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
             )   
             .exceptionHandling(exception -> exception
                 .accessDeniedPage("/") // Obehörig åtkomst omdirigeras till startsidan
@@ -66,7 +61,7 @@ public class SecurityConfig {
      
     return http.build();
     }
-
+    //Definerar UserDetailsService för att hämta användar data från databas
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userService.loadUserByUsername(username);  // Använder metod i UserService
