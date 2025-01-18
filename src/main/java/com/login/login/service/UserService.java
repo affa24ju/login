@@ -13,7 +13,8 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-
+    
+    //Spara användaren i databas
     public void saveUser(User user) {
         userRepository.save(user);
     }

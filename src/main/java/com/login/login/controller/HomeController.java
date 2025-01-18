@@ -58,20 +58,6 @@ public class HomeController {
         model.addAttribute("isAuthenticated", SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         return "productDetail";
     }
-
-    @GetMapping("/register")
-    public String registerPage(Model model){
-        System.out.println("till register sidan");
-        model.addAttribute("user", new User());
-        return "register";
-    }
-    
-    @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword())); //kryptera lösenord innan det sparas
-        userService.saveUser(user); //spara användaren
-        return "redirect:/";
-    }
-
+ 
     
 }
