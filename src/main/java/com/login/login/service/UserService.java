@@ -1,6 +1,7 @@
 package com.login.login.service;
 
 import com.login.login.model.User;
+//import com.login.login.model.UserDto;
 import com.login.login.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,7 +14,10 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-    
+
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }      
     //Spara användaren i databas
     public void saveUser(User user) {
         userRepository.save(user);
@@ -26,7 +30,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public org.springframework.security.core.userdetails.User loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Försöker ladda användare: " + username);
+         System.out.println("Försöker ladda användare: " + username);
         User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         
@@ -35,7 +39,10 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(), 
                 user.getPassword(), 
-                user.getAuthorities()); // använder getAuthorities() från User klassen
+                user.getAuthorities()); // använder getAuthorities() från User klassen 
+        /*return userRepository.findByUserName(username)
+            .map(UserDto::new)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));*/
     }
     
 }

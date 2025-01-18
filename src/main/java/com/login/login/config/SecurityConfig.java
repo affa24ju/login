@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .requestMatchers("/orders").authenticated()  // Endast inloggade användare kan se mina ordrar
                 .anyRequest().authenticated()  // Andra sidor kräver inloggning
             )
+            .userDetailsService(userService)
             .formLogin(form -> form
                 .permitAll()
                 .defaultSuccessUrl("/", true) // Efter inloggning omdirigeras användaren till startsidan
